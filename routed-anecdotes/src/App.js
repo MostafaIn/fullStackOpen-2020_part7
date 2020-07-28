@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -18,10 +18,22 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+      </li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id
+  const anecdote = anecdotes.find( an => an.id === id)
+  return <div>
+    <h2>{anecdote.content} by {anecdote.author}</h2>
+    <div>has {anecdote.votes} votes</div>
+    <div>for more info see <a href={anecdote.info}>{anecdote.info}</a></div>
+  </div>
+}
 
 const About = () => (
   <div>
@@ -38,7 +50,7 @@ const About = () => (
 )
 
 const Footer = () => (
-  <div>
+  <div style={{marginTop: 20}}>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -websovelluskehitys</a>.
 
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
@@ -131,6 +143,9 @@ const App = () => {
         <Switch>
           <Route exact path="/">
             <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+          <Route path="/anecdotes/:id">
+            <Anecdote anecdotes={anecdotes} />
           </Route>
           <Route path="/create">
             <CreateNew addNew={addNew} />
