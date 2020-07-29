@@ -61,8 +61,7 @@ const CreateNew = (props) => {
   const author = useField('text')
   const info = useField('text')
   const history = useHistory()
-
-
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
@@ -74,10 +73,16 @@ const CreateNew = (props) => {
     history.push('/')
   }
 
+  const handleReset = () => {
+    content.onReset()
+    author.onReset()
+    info.onReset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           content
           <input {...content} />
@@ -90,7 +95,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset">reset</button>
       </form>
     </div>
   )
@@ -132,10 +138,15 @@ const App = () => {
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
+    if(!anecdote.content){
+      setNotification(`nothing added!`)
+    }else{
+      anecdote.id = (Math.random() * 10000).toFixed(0)
+      setAnecdotes(anecdotes.concat(anecdote))
+      
+      setNotification(`a new anecdote ${anecdote.content} created!`)
+    }
     
-    setNotification(`a new anecdote ${anecdote.content} created!`)
     setTimeout(() => setNotification(''), 10000);
   }
 
