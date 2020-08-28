@@ -1,17 +1,19 @@
 import { LOAD_USER, LOG_IN_SUCCESS, LOG_IN_FAIL, LOG_OUT } from "../actions/types"
 
-const reducer = (state = null, action) => {
+const initialState = {
+    user: null,
+    isLoading:true
+}
+
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_USER:
-            console.log(action.data)
-            return action.data
         case LOG_IN_SUCCESS:
-            console.log(action.data)
-            return action.data
-        case LOG_OUT:
-            return null
+            return { ...state, user: action.data, isLoading:false}
         case LOG_IN_FAIL:
-            return null
+            return state
+        case LOG_OUT:
+            return {...state, user: null, isLoading: false}
         default:
             return state;
     }

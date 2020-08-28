@@ -12,14 +12,12 @@ export const initialBlogs = () => async dispatch => {
 }
 
 export const addBlog = (newBlog) => async dispatch => {
-    // if(newBlog.title !== ""){
         const blog = await blogService.createBlog(newBlog)
 
         dispatch({
             type: NEW_BLOG,
             data: blog
         })
-    // }
 }
 
 export const likeBlog = (blog) => async dispatch => {

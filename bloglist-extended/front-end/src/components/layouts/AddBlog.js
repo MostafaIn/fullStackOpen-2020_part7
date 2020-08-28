@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { addBlog } from '../actions/blogActions'
-import { setNotification } from '../actions/notificationActions'
+import { addBlog } from '../../actions/blogActions'
+import { setNotification } from '../../actions/notificationActions'
 
 import Togglable from './Togglable'
 
@@ -33,7 +33,7 @@ const AddBlog = () => {
 
   }
 
-  return <Togglable btnLabel="new blog" ref={blogFormRef}>
+  return <Togglable btnLabel="create new" ref={blogFormRef}>
     <form onSubmit={handleAddBlog}>
       <h3>create new blog</h3>
       <table>
