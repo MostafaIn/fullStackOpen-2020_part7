@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
+import { useField } from '../../hooks'
 
 import { useDispatch } from 'react-redux'
 import { addBlog } from '../../actions/blogActions'
@@ -7,9 +8,9 @@ import { setNotification } from '../../actions/notificationActions'
 import Togglable from './Togglable'
 
 const AddBlog = () => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] =useState('')
+  const [title, titleReset] = useField('text')
+  const [author, authorReset] = useField('text')
+  const [url, urlReset] =useField('text')
 
   const dispatch = useDispatch()
 
@@ -17,19 +18,20 @@ const AddBlog = () => {
 
   const handleAddBlog = async (e) => {
     e.preventDefault()
-    const newBlog = { title, author, url }
+    const newBlog = { title: title.value, author: author.value, url: url.value }
+    console.log(newBlog);
+    
     try {
       await dispatch(addBlog(newBlog))
-      dispatch(setNotification({ msg:`a new blog ${newBlog.title} by ${newBlog.author} added!`, err: false }))
+      dispatch(setNotification({ msg:`a new blog ${newBlog.title.value} by ${newBlog.author.value} added!`, err: false }))
       blogFormRef.current.toggleVisibility()
-
     } catch (error) {
       dispatch(setNotification({ msg:'Please Enter new blog values!', err: true }))
     }
 
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    titleReset()
+    authorReset()
+    urlReset()
 
   }
 
@@ -41,37 +43,19 @@ const AddBlog = () => {
           <tr>
             <td>title :</td>
             <td>
-              <input
-                type="text"
-                value={title}
-                id="title"
-                name="title"
-                onChange={ ({ target }) => setTitle(target.value) }
-              />
+              <input {...title} />
             </td>
           </tr>
           <tr>
             <td>author :</td>
             <td>
-              <input
-                type="text"
-                value={author}
-                id="author"
-                name="author"
-                onChange={ ({ target }) => setAuthor(target.value) }
-              />
+              <input {...author} />
             </td>
           </tr>
           <tr>
             <td>url :</td>
             <td>
-              <input
-                type="text"
-                value={url}
-                id="url"
-                name="url"
-                onChange={ ({ target }) => setUrl(target.value) }
-              />
+              <input {...url} />
             </td>
           </tr>
           <tr>

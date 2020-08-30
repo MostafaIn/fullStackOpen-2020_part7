@@ -1,4 +1,4 @@
-import { INIT_BLOGS, NEW_BLOG, LIKE_BLOG, DELETE_BLOG } from './types'
+import { INIT_BLOGS, NEW_BLOG, LIKE_BLOG, DELETE_BLOG, COMMENT_BLOG } from './types'
 import blogService from '../services/blogs'
 
 export const initialBlogs = () => async dispatch => {
@@ -35,5 +35,14 @@ export const deleteBlog = (blog) => async dispatch => {
     dispatch({
         type: DELETE_BLOG,
         data: blog
+    })
+}
+
+export const commentBlog = (blogId, comment) => async dispatch => {
+    const commentedBlog = await blogService.postComment(blogId, comment)
+
+    dispatch({
+        type: COMMENT_BLOG,
+        data: commentedBlog
     })
 }

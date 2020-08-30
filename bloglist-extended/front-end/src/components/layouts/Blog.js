@@ -4,6 +4,8 @@ import { useRouteMatch } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from '../../actions/blogActions'
+import Comments from './Comments'
+import AddComment from './AddComment'
 
 
 const Blog = () => {
@@ -11,7 +13,8 @@ const Blog = () => {
 
   const match = useRouteMatch('/blogs/:id')
   const blog = match ? blogs?.find( blog => blog.id === match.params.id) : null
-
+  console.log('target blog: ',blog);
+  
   const dispatch = useDispatch()
 
   const handleLike = currBlog => {
@@ -29,6 +32,11 @@ const Blog = () => {
       <a href={blog.url} target="_blank" rel="noopener noreferrer">{blog.url}</a>
       <p>{blog.likes} <button onClick={() => handleLike(blog)}>like</button></p>
       <p>Added by {blog.author}</p>
+      <div>
+        <h3>Comments</h3>
+        <AddComment blog={blog} />
+        <Comments comments={blog.comments} />
+      </div>
       {/* {(blog.user.username === user.username) &&
         <button style={{ color:'red' }} onClick={() => handleDelete(blog)}>remove</button>
       } */}

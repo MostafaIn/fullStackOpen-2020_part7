@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { initialBlogs } from '../../actions/blogActions'
 
 import AddBlog from './AddBlog'
-import Notification from './Notification'
 
 
 const Blogs = () => {
@@ -22,7 +21,6 @@ const Blogs = () => {
   return (
     <div>
       <h2>Blog App</h2>
-      <Notification />
         <AddBlog />
       {blogs.map(blog => <div key={blog.id} style={blogStyle}>
         <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
