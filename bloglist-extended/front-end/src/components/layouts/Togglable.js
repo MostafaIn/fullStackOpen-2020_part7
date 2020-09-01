@@ -1,6 +1,14 @@
 import React,{ useState, useImperativeHandle } from 'react'
 
+//Material-UI
+import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
+
 const Togglable = React.forwardRef(({ children, btnLabel }, ref) => {
+  const classes = useStyles();
+
   const [visible, setVisible] = useState(false)
 
   const hide = { display: visible ? 'none' : '' }
@@ -17,11 +25,15 @@ const Togglable = React.forwardRef(({ children, btnLabel }, ref) => {
   return (
     <div>
       <div style={hide}>
-        <button onClick={toggleVisibility}>{btnLabel}</button>
+        <Fab color="primary" aria-label="add" onClick={toggleVisibility} className={classes.fab} >
+          <AddIcon />
+        </Fab>
       </div>
       <div style={show}>
         {children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <Fab color="secondary" aria-label="cancel" onClick={toggleVisibility} className={classes.fab} >
+          <CancelIcon />
+        </Fab>
       </div>
     </div>
   )
@@ -30,3 +42,12 @@ const Togglable = React.forwardRef(({ children, btnLabel }, ref) => {
 Togglable.displayName = 'Togglable'
 
 export default Togglable
+
+
+const useStyles = makeStyles ( theme => ({
+  fab: {
+    position: 'absolute',
+    top: theme.spacing(12),
+    right: theme.spacing(12),
+  },
+}));

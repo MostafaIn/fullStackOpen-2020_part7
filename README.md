@@ -4,3 +4,13 @@
 #### custom hooks, 
 #### styling app with CSS and 
 #### webpack
+
+
+
+##### Bloglist-app mockup
+
+ - username: your name
+ - password: password
+
+
+ ![screenshot](blogList-mockup.png)

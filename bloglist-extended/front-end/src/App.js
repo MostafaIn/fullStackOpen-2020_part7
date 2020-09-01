@@ -1,6 +1,9 @@
 import React, { useEffect, Fragment } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
+//Material-UI
+import { CssBaseline } from '@material-ui/core'
+
 import './App.css'
 import { useDispatch } from 'react-redux'
 
@@ -22,6 +25,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <CssBaseline />
         <NavBar />
         <Notification />
       <Switch>

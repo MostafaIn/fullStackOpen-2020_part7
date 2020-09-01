@@ -2,6 +2,11 @@
 import React from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
+//Material-UI
+import { makeStyles } from '@material-ui/core/styles';
+import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+
 import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from '../../actions/blogActions'
 import Comments from './Comments'
@@ -9,6 +14,8 @@ import AddComment from './AddComment'
 
 
 const Blog = () => {
+  const classes = useStyles();
+
   const blogs = useSelector(state => state.blogs)
 
   const match = useRouteMatch('/blogs/:id')
@@ -27,21 +34,37 @@ const Blog = () => {
 
   if(!blog) return null
   return (
-    <div className="blog-details">
-      <h4>{blog.title}</h4>
-      <a href={blog.url} target="_blank" rel="noopener noreferrer">{blog.url}</a>
-      <p>{blog.likes} <button onClick={() => handleLike(blog)}>like</button></p>
-      <p>Added by {blog.author}</p>
-      <div>
-        <h3>Comments</h3>
+    <Card  className={classes.root}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">{blog.title}</Typography>
+        <Typography variant="body2" color="textSecondary" component="a">{blog.url}</Typography>
+        <Typography variant="caption" component="h5">Added by {blog.author}</Typography>
+        <CardActions>
+          {blog.likes}
+          <Button size="small" color="primary" onClick={() => handleLike(blog)}>
+            <ThumbUpIcon fontSize="small" />
+          </Button>
+        </CardActions>
+      </CardContent>
+      <CardContent>
+        <Typography gutterBottom variant="body" component="h3">Comments</Typography>
         <AddComment blog={blog} />
         <Comments comments={blog.comments} />
-      </div>
+      </CardContent>
       {/* {(blog.user.username === user.username) &&
         <button style={{ color:'red' }} onClick={() => handleDelete(blog)}>remove</button>
       } */}
-    </div>
+    </Card>
   )
 }
 
 export default Blog
+
+
+const useStyles = makeStyles({
+  root: {
+    margin:'10px auto',
+    maxWidth: 600,
+    backgroundColor:'#eee'
+  }
+});
